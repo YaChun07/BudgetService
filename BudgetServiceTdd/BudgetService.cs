@@ -46,21 +46,24 @@ namespace BudgetServiceTdd
 
         private int GetMinMonthBudget(DateTime start, DateTime end)
         {
-            int budgetTotalAmount = 0;
-            var diffMonths = ListBudgetMonth(start, end);
-            var midDiffMonth = diffMonths.Skip(1).Take(diffMonths.Count() - 2);
+            var budgetTotalAmount = 0;
+            var diffMonths = GetMidMonths(start, end);
 
-            foreach (var diffMonth in midDiffMonth)
+            foreach (var diffMonth in RemoveFirstAndLast(diffMonths))
             {
-                var year = diffMonth.Substring(0, 4);
-                var month = diffMonth.Substring(4, 2);
-                if (CheckBudgetEmpty(year, month))
+                var midMonthTime = new DateTime(int.Parse(diffMonth.Substring(0, 4)), int.Parse(diffMonth.Substring(4, 2)), 1);
+
+                if (CheckBudgetEmpty(diffMonth.Substring(0, 4), diffMonth.Substring(4, 2)))
                 {
-                    var time = new DateTime(int.Parse(year), int.Parse(month), 1);
-                    budgetTotalAmount += GetTotalBudgetByMonth(GetBudgetMonthDays(time), time);
+                    budgetTotalAmount += GetTotalBudgetByMonth(GetBudgetMonthDays(midMonthTime), midMonthTime);
                 }
             }
             return budgetTotalAmount;
+        }
+
+        private IEnumerable<string> RemoveFirstAndLast(IEnumerable<string> diffMonths)
+        {
+            return diffMonths.Skip(1).Take(diffMonths.Count() - 2);
         }
 
         private Budget GetBudget(DateTime date)
@@ -92,7 +95,7 @@ namespace BudgetServiceTdd
             && int.Parse(x.YearMonth.Substring(0, 4)) == int.Parse(year));
         }
 
-        private IEnumerable<string> ListBudgetMonth(DateTime start, DateTime end)
+        private IEnumerable<string> GetMidMonths(DateTime start, DateTime end)
         {
             var startTime = new DateTime(start.Year, start.Month, 1);
 
