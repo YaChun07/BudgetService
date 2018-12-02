@@ -17,7 +17,7 @@ namespace BudgetServiceTdd
         {
             if (start.Ticks > end.Ticks) return 0;
 
-            if (!CheckBudgetEmpty(start.Month.ToString()) && !CheckBudgetEmpty(end.Month.ToString()))
+            if (!CheckBudgetEmpty(start.Year.ToString(), start.Month.ToString()) && !CheckBudgetEmpty(end.Year.ToString(), end.Month.ToString()))
             {
                 return 0;
             }
@@ -26,10 +26,6 @@ namespace BudgetServiceTdd
 
         private int GetBudgetTotalAmount(DateTime start, DateTime end)
         {
-            var startBudget = _budgets.FirstOrDefault(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(start.Month.ToString()));
-
-            var endBudget = _budgets.FirstOrDefault(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(end.Month.ToString()));
-
             int starTimeSpan, endTimeSpan;
 
             if (start.Month == end.Month)
@@ -39,27 +35,72 @@ namespace BudgetServiceTdd
             }
             else
             {
-                starTimeSpan = GetBudgetMonthDays(startBudget) - start.Day + 1;
+                starTimeSpan = GetBudgetMonthDays(start) - start.Day + 1;
                 endTimeSpan = end.Day;
             }
 
-            return GetTotalBudgetByMonth(starTimeSpan, startBudget)
-                   + GetTotalBudgetByMonth(endTimeSpan, endBudget);
+            return GetMinMonthBudget(start, end) 
+                   + GetTotalBudgetByMonth(starTimeSpan, start)
+                   + GetTotalBudgetByMonth(endTimeSpan, end);
         }
 
-        private int GetTotalBudgetByMonth(int starTimeSpan, Budget startBudget)
+        private int GetMinMonthBudget(DateTime start, DateTime end)
         {
-            return starTimeSpan * startBudget.Amount / GetBudgetMonthDays(startBudget);
+            int budgetTotalAmount = 0;
+            var diffMonths = ListBudgetMonth(start, end);
+            var midDiffMonth = diffMonths.Skip(1).Take(diffMonths.Count() - 2);
+
+            foreach (var diffMonth in midDiffMonth)
+            {
+                var year = diffMonth.Substring(0, 4);
+                var month = diffMonth.Substring(4, 2);
+                if (CheckBudgetEmpty(year, month))
+                {
+                    var time = new DateTime(int.Parse(year), int.Parse(month), 1);
+                    budgetTotalAmount += GetTotalBudgetByMonth(GetBudgetMonthDays(time), time);
+                }
+            }
+            return budgetTotalAmount;
         }
 
-        private int GetBudgetMonthDays(Budget budget)
+        private Budget GetBudget(DateTime date)
         {
-            return DateTime.DaysInMonth(int.Parse(budget.YearMonth.Substring(0, 4)), int.Parse(budget.YearMonth.Substring(4, 2)));
+            return _budgets.FirstOrDefault(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(date.Month.ToString()));
         }
 
-        private bool CheckBudgetEmpty(string month)
+        private int GetTotalBudgetByMonth(int starTimeSpan, DateTime date)
         {
-            return _budgets.Any(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(month));
+            var budget = GetBudget(date);
+
+            var budgetAmount = 0;
+
+            if (budget != null)
+            {
+                budgetAmount = budget.Amount;
+            }
+            return starTimeSpan * budgetAmount / GetBudgetMonthDays(date);
+        }
+
+        private int GetBudgetMonthDays(DateTime date)
+        {
+            return DateTime.DaysInMonth(int.Parse(date.Year.ToString()), int.Parse(date.Month.ToString()));
+        }
+
+        private bool CheckBudgetEmpty(string year, string month)
+        {
+            return _budgets.Any(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(month)
+            && int.Parse(x.YearMonth.Substring(0, 4)) == int.Parse(year));
+        }
+
+        private IEnumerable<string> ListBudgetMonth(DateTime start, DateTime end)
+        {
+            var startTime = new DateTime(start.Year, start.Month, 1);
+
+            while (startTime <= end)
+            {
+                yield return startTime.Year + startTime.Month.ToString("D2");
+                startTime = startTime.AddMonths(1);
+            }
         }
     }
 }
