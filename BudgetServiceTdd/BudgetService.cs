@@ -15,7 +15,7 @@ namespace BudgetServiceTdd
 
 		public double TotalAmount(DateTime start, DateTime end)
 		{
-			if (start.Ticks > end.Ticks) return 0;
+			if (start > end) return 0;
 
 			// code smell, a little primitive obsession for datetime.
 			// code smell, data clump for start, end always occur together.
