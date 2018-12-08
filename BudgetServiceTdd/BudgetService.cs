@@ -4,6 +4,18 @@ using System.Linq;
 
 namespace BudgetServiceTdd
 {
+	public class Period
+	{
+		public Period(DateTime start, DateTime end)
+		{
+			Start = start;
+			End = end;
+		}
+
+		public DateTime Start { get; private set; }
+		public DateTime End { get; private set; }
+	}
+
 	public class BudgetService
 	{
 		private readonly List<Budget> _budgets;
@@ -24,35 +36,36 @@ namespace BudgetServiceTdd
 
 		private int GetBudgetTotalAmount(DateTime start, DateTime end)
 		{
-			var starTimeSpan = GetStarTimeSpan(start, end);
-			var endTimeSpan = GetEndTimeSpan(start, end);
+			var period = new Period(start, end);
+			var starTimeSpan = GetStarTimeSpan(period);
+			var endTimeSpan = GetEndTimeSpan(period);
 
 			return GetMinMonthBudget(start, end)
 				   + GetTotalBudgetByMonth(starTimeSpan, start)
 				   + GetTotalBudgetByMonth(endTimeSpan, end);
 		}
 
-		private int GetStarTimeSpan(DateTime start, DateTime end)
+		private int GetStarTimeSpan(Period period)
 		{
 			var starTimeSpan = 0;
-			if (start.Month == end.Month)
+			if (period.Start.Month == period.End.Month)
 			{
-				starTimeSpan = end.Day - start.Day + 1;
+				starTimeSpan = period.End.Day - period.Start.Day + 1;
 			}
 			else
 			{
-				starTimeSpan = GetBudgetMonthDays(start) - start.Day + 1;
+				starTimeSpan = GetBudgetMonthDays(period.Start) - period.Start.Day + 1;
 			}
 
 			return starTimeSpan;
 		}
 
-		private static int GetEndTimeSpan(DateTime start, DateTime end)
+		private static int GetEndTimeSpan(Period period)
 		{
 			var endTimeSpan = 0;
-			if (start.Month != end.Month)
+			if (period.Start.Month != period.End.Month)
 			{
-				endTimeSpan = end.Day;
+				endTimeSpan = period.End.Day;
 			}
 
 			return endTimeSpan;
