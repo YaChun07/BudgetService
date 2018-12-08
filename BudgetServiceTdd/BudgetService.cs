@@ -42,7 +42,8 @@ namespace BudgetServiceTdd
 			}
 			else
 			{
-				starTimeSpan = GetBudgetMonthDays(period.Start) - period.Start.Day + 1;
+				DateTime date = period.Start;
+				starTimeSpan = DateTime.DaysInMonth(int.Parse(date.Year.ToString()), int.Parse(date.Month.ToString())) - period.Start.Day + 1;
 			}
 
 			return starTimeSpan;
