@@ -72,5 +72,19 @@ namespace BudgetServiceTdd.Tests
             var actual = _budgetService.TotalAmount(new DateTime(2018, 04, 20), new DateTime(2018, 06, 01));
             Assert.AreEqual(141, actual);
         }
+
+        [TestMethod]
+        public void Budget_On_Cross3Year_ShouldReturn_362()
+        {
+            var actual = _budgetService.TotalAmount(new DateTime(2017, 01, 01), new DateTime(2019, 01, 01));
+            Assert.AreEqual(362, actual);
+        }
+
+        [TestMethod]
+        public void Budget_On_Cross4Year_ShouldReturn_362()
+        {
+            var actual = _budgetService.TotalAmount(new DateTime(2017, 01, 01), new DateTime(2020, 01, 01));
+            Assert.AreEqual(362, actual);
+        }
     }
 }

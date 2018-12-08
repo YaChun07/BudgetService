@@ -17,10 +17,6 @@ namespace BudgetServiceTdd
         {
             if (start.Ticks > end.Ticks) return 0;
 
-            if (!CheckBudgetEmpty(start.Year.ToString(), start.Month.ToString()) && !CheckBudgetEmpty(end.Year.ToString(), end.Month.ToString()))
-            {
-                return 0;
-            }
             return GetBudgetTotalAmount(start, end);
         }
 
@@ -73,6 +69,10 @@ namespace BudgetServiceTdd
 
         private int GetTotalBudgetByMonth(int starTimeSpan, DateTime date)
         {
+            if (!CheckBudgetEmpty(date.Year.ToString(), date.Month.ToString()))
+            {
+                return 0;
+            }
             var budget = GetBudget(date);
 
             var budgetAmount = 0;
@@ -91,8 +91,9 @@ namespace BudgetServiceTdd
 
         private bool CheckBudgetEmpty(string year, string month)
         {
-            return _budgets.Any(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(month)
-            && int.Parse(x.YearMonth.Substring(0, 4)) == int.Parse(year));
+            var checkBudgetEmpty = _budgets.Any(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(month)
+                                                     && int.Parse(x.YearMonth.Substring(0, 4)) == int.Parse(year));
+            return checkBudgetEmpty;
         }
 
         private IEnumerable<string> GetMidMonths(DateTime start, DateTime end)
