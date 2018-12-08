@@ -24,12 +24,16 @@ namespace BudgetServiceTdd
 
 		private int GetBudgetTotalAmount(DateTime start, DateTime end)
 		{
-			var endTimeSpan = 0;
-			if (start.Month != end.Month)
-			{
-				endTimeSpan = end.Day;
-			}
+			var starTimeSpan = GetStarTimeSpan(start, end);
+			var endTimeSpan = GetEndTimeSpan(start, end);
 
+			return GetMinMonthBudget(start, end)
+				   + GetTotalBudgetByMonth(starTimeSpan, start)
+				   + GetTotalBudgetByMonth(endTimeSpan, end);
+		}
+
+		private int GetStarTimeSpan(DateTime start, DateTime end)
+		{
 			var starTimeSpan = 0;
 			if (start.Month == end.Month)
 			{
@@ -40,9 +44,18 @@ namespace BudgetServiceTdd
 				starTimeSpan = GetBudgetMonthDays(start) - start.Day + 1;
 			}
 
-			return GetMinMonthBudget(start, end)
-				   + GetTotalBudgetByMonth(starTimeSpan, start)
-				   + GetTotalBudgetByMonth(endTimeSpan, end);
+			return starTimeSpan;
+		}
+
+		private static int GetEndTimeSpan(DateTime start, DateTime end)
+		{
+			var endTimeSpan = 0;
+			if (start.Month != end.Month)
+			{
+				endTimeSpan = end.Day;
+			}
+
+			return endTimeSpan;
 		}
 
 		private int GetMinMonthBudget(DateTime start, DateTime end)
