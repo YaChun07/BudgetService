@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BudgetServiceTdd
 {
@@ -38,6 +39,17 @@ namespace BudgetServiceTdd
 			}
 
 			return starTimeSpan;
+		}
+
+		public IEnumerable<string> GetMidMonths()
+		{
+			var currentMonth = new DateTime(Start.Year, Start.Month, 1);
+
+			while (currentMonth <= End)
+			{
+				yield return currentMonth.ToString("yyyyMM");
+				currentMonth = currentMonth.AddMonths(1);
+			}
 		}
 	}
 }

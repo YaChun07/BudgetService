@@ -36,7 +36,7 @@ namespace BudgetServiceTdd
 		private int GetMidMonthBudget(Period period)
 		{
 			var budgetTotalAmount = 0;
-			var diffMonths = GetMidMonths(period);
+			var diffMonths = period.GetMidMonths();
 
 			foreach (var diffMonth in RemoveFirstAndLast(diffMonths))
 			{
@@ -87,17 +87,6 @@ namespace BudgetServiceTdd
 			var checkBudgetEmpty = _budgets.Any(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(month)
 													 && int.Parse(x.YearMonth.Substring(0, 4)) == int.Parse(year));
 			return checkBudgetEmpty;
-		}
-
-		private IEnumerable<string> GetMidMonths(Period period)
-		{
-			var currentMonth = new DateTime(period.Start.Year, period.Start.Month, 1);
-
-			while (currentMonth <= period.End)
-			{
-				yield return currentMonth.ToString("yyyyMM");
-				currentMonth = currentMonth.AddMonths(1);
-			}
 		}
 	}
 }
