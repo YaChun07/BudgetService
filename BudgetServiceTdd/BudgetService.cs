@@ -28,9 +28,9 @@ namespace BudgetServiceTdd
 			var starTimeSpan = period.GetStarTimeSpan();
 			var endTimeSpan = period.GetEndTimeSpan();
 
-			return GetMinMonthBudget(start, end)
-				   + GetTotalBudgetByMonth(starTimeSpan, start)
-				   + GetTotalBudgetByMonth(endTimeSpan, end);
+			return GetMinMonthBudget(period.Start, period.End)
+				   + GetTotalBudgetByMonth(starTimeSpan, period.Start)
+				   + GetTotalBudgetByMonth(endTimeSpan, period.End);
 		}
 
 		private int GetMinMonthBudget(DateTime start, DateTime end)
