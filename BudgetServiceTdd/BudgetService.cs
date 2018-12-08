@@ -26,7 +26,7 @@ namespace BudgetServiceTdd
 		{
 			var period = new Period(start, end);
 			var starTimeSpan = GetStarTimeSpan(period);
-			var endTimeSpan = GetEndTimeSpan(period);
+			var endTimeSpan = period.GetEndTimeSpan();
 
 			return GetMinMonthBudget(start, end)
 				   + GetTotalBudgetByMonth(starTimeSpan, start)
@@ -46,17 +46,6 @@ namespace BudgetServiceTdd
 			}
 
 			return starTimeSpan;
-		}
-
-		private static int GetEndTimeSpan(Period period)
-		{
-			var endTimeSpan = 0;
-			if (period.Start.Month != period.End.Month)
-			{
-				endTimeSpan = period.End.Day;
-			}
-
-			return endTimeSpan;
 		}
 
 		private int GetMinMonthBudget(DateTime start, DateTime end)
