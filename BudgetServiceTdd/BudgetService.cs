@@ -62,7 +62,7 @@ namespace BudgetServiceTdd
 
 		private int GetTotalBudgetByMonth(int starTimeSpan, DateTime date)
 		{
-			if (!CheckBudgetEmpty(date.Year.ToString(), date.Month.ToString()))
+			if (!CheckBudgetEmpty(date.ToString("yyyy"), date.ToString("MM")))
 			{
 				return 0;
 			}
@@ -84,9 +84,9 @@ namespace BudgetServiceTdd
 
 		private bool CheckBudgetEmpty(string year, string month)
 		{
-			var checkBudgetEmpty = _budgets.Any(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(month)
-													 && int.Parse(x.YearMonth.Substring(0, 4)) == int.Parse(year));
-			return checkBudgetEmpty;
+			return _budgets.Any(x => x.YearMonth == year + month);
+			return _budgets.Any(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(month)
+									 && int.Parse(x.YearMonth.Substring(0, 4)) == int.Parse(year));
 		}
 	}
 }
