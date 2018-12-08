@@ -42,9 +42,7 @@ namespace BudgetServiceTdd
 			{
 				var midMonthTime = new DateTime(int.Parse(diffMonth.Substring(0, 4)), int.Parse(diffMonth.Substring(4, 2)), 1);
 
-				string year = diffMonth.Substring(0, 4);
-				string month = diffMonth.Substring(4, 2);
-				if (CheckBudgetEmpty(year + month))
+				if (CheckBudgetEmpty(diffMonth))
 				{
 					budgetTotalAmount += GetTotalBudgetByMonth(GetBudgetMonthDays(midMonthTime), midMonthTime);
 				}
@@ -64,9 +62,7 @@ namespace BudgetServiceTdd
 
 		private int GetTotalBudgetByMonth(int starTimeSpan, DateTime date)
 		{
-			string year = date.ToString("yyyy");
-			string month = date.ToString("MM");
-			if (!CheckBudgetEmpty(year + month))
+			if (!CheckBudgetEmpty(date.ToString("yyyyMM")))
 			{
 				return 0;
 			}
