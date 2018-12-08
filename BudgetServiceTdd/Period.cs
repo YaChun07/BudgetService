@@ -23,5 +23,21 @@ namespace BudgetServiceTdd
 
 			return endTimeSpan;
 		}
+
+		public int GetStarTimeSpan()
+		{
+			var starTimeSpan = 0;
+			if (Start.Month == End.Month)
+			{
+				starTimeSpan = End.Day - Start.Day + 1;
+			}
+			else
+			{
+				DateTime date = Start;
+				starTimeSpan = DateTime.DaysInMonth(int.Parse(date.Year.ToString()), int.Parse(date.Month.ToString())) - Start.Day + 1;
+			}
+
+			return starTimeSpan;
+		}
 	}
 }
