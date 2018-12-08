@@ -85,8 +85,6 @@ namespace BudgetServiceTdd
 		private bool CheckBudgetEmpty(string year, string month)
 		{
 			return _budgets.Any(x => x.YearMonth == year + month);
-			return _budgets.Any(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(month)
-									 && int.Parse(x.YearMonth.Substring(0, 4)) == int.Parse(year));
 		}
 	}
 }
