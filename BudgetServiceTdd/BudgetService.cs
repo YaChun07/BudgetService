@@ -26,22 +26,6 @@ namespace BudgetServiceTdd
 		{
 			var period = new Period(start, end);
 
-			//var firstMonthBudget = _budgets.FirstOrDefault(x => x.YearMonth == period.Start.ToString("yyyyMM"));
-			//int firstMonthAmount = 0;
-			//if (firstMonthBudget != null)
-			//{
-			//	var intervalDays = period.GetStarTimeSpan();
-			//	firstMonthAmount = firstMonthBudget.GetAmountByIntervalDays(intervalDays);
-			//}
-
-			//var lastMonthBudget = _budgets.FirstOrDefault(x => x.YearMonth == period.End.ToString("yyyyMM"));
-			//int lastMonthAmount = 0;
-			//if (lastMonthBudget != null)
-			//{
-			//	var intervalDays = period.GetEndTimeSpan();
-			//	lastMonthAmount = lastMonthBudget.GetAmountByIntervalDays(intervalDays);
-			//}
-
 			var budgetTotalAmount = 0;
 			var diffMonths = period.GetMidMonths();
 
@@ -73,7 +57,7 @@ namespace BudgetServiceTdd
 				}
 			}
 
-			return budgetTotalAmount; // + firstMonthAmount + lastMonthAmount;
+			return budgetTotalAmount;
 		}
 
 		private IEnumerable<string> RemoveFirstAndLast(IEnumerable<string> diffMonths)
