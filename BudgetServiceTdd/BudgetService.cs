@@ -36,11 +36,11 @@ namespace BudgetServiceTdd
 					if (currentBudget != null)
 					{
 						int intervalDays;
-						if (midMonthTime.ToString("yyyyMM") == period.Start.ToString("yyyyMM"))
+						if (currentBudget.YearMonth == period.Start.ToString("yyyyMM"))
 						{
 							intervalDays = period.GetStarTimeSpan();
 						}
-						else if (midMonthTime.ToString("yyyyMM") == period.End.ToString("yyyyMM"))
+						else if (currentBudget.YearMonth == period.End.ToString("yyyyMM"))
 						{
 							intervalDays = period.GetEndTimeSpan();
 						}
