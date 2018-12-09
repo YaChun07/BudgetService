@@ -28,28 +28,28 @@ namespace BudgetServiceTdd
 
 			var firstMonthBudget = _budgets.FirstOrDefault(x => x.YearMonth == period.Start.ToString("yyyyMM"));
 			var lastMonthBudget = _budgets.FirstOrDefault(x => x.YearMonth == period.End.ToString("yyyyMM"));
-			var firstMonthAmount = FirstMonthAmount(period, firstMonthBudget);
-			var lastMonthAmount = LastMonthAmount(period, lastMonthBudget);
+			var firstMonthAmount = FirstMonthAmount(firstMonthBudget, period.GetStarTimeSpan());
+			var lastMonthAmount = LastMonthAmount(lastMonthBudget, period.GetEndTimeSpan());
 			return GetMidMonthBudget(period) + firstMonthAmount + lastMonthAmount;
 		}
 
-		private int LastMonthAmount(Period period, Budget budget)
+		private int LastMonthAmount(Budget budget, int intervalDays)
 		{
 			var lastMonthAmount = 0;
 			if (budget != null)
 			{
-				lastMonthAmount = budget.GetTotalBudgetByMonth(period.GetEndTimeSpan());
+				lastMonthAmount = budget.GetTotalBudgetByMonth(intervalDays);
 			}
 
 			return lastMonthAmount;
 		}
 
-		private int FirstMonthAmount(Period period, Budget budget)
+		private int FirstMonthAmount(Budget budget, int intervalDays)
 		{
 			var firstMonthAmount = 0;
 			if (budget != null)
 			{
-				firstMonthAmount = budget.GetTotalBudgetByMonth(period.GetStarTimeSpan());
+				firstMonthAmount = budget.GetTotalBudgetByMonth(intervalDays);
 			}
 
 			return firstMonthAmount;
