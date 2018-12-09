@@ -35,25 +35,32 @@ namespace BudgetServiceTdd
 					var currentBudget = _budgets.FirstOrDefault(x => x.YearMonth == midMonthTime.ToString("yyyyMM"));
 					if (currentBudget != null)
 					{
-						int intervalDays;
-						if (currentBudget.YearMonth == period.Start.ToString("yyyyMM"))
-						{
-							intervalDays = period.GetStarTimeSpan();
-						}
-						else if (currentBudget.YearMonth == period.End.ToString("yyyyMM"))
-						{
-							intervalDays = period.GetEndTimeSpan();
-						}
-						else
-						{
-							intervalDays = currentBudget.DaysInMonth();
-						}
+						var intervalDays = IntervalDays(currentBudget, period);
 						budgetTotalAmount += currentBudget.GetAmountByIntervalDays(intervalDays);
 					}
 				}
 			}
 
 			return budgetTotalAmount;
+		}
+
+		private static int IntervalDays(Budget currentBudget, Period period)
+		{
+			int intervalDays;
+			if (currentBudget.YearMonth == period.Start.ToString("yyyyMM"))
+			{
+				intervalDays = period.GetStarTimeSpan();
+			}
+			else if (currentBudget.YearMonth == period.End.ToString("yyyyMM"))
+			{
+				intervalDays = period.GetEndTimeSpan();
+			}
+			else
+			{
+				intervalDays = currentBudget.DaysInMonth();
+			}
+
+			return intervalDays;
 		}
 
 		private IEnumerable<string> RemoveFirstAndLast(IEnumerable<string> diffMonths)
