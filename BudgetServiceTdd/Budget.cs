@@ -8,5 +8,11 @@ namespace BudgetServiceTdd
 		public int Amount { get; set; }
 
 		public DateTime CurrentDateTime => DateTime.ParseExact(YearMonth + "01", "yyyyMMdd", null);
+
+		public int DaysInMonth()
+		{
+			var daysInMonth = DateTime.DaysInMonth(CurrentDateTime.Year, CurrentDateTime.Month);
+			return daysInMonth;
+		}
 	}
 }
