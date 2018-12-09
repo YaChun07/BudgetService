@@ -32,7 +32,8 @@ namespace BudgetServiceTdd
 				if (currentBudget != null)
 				{
 					var intervalDays = period.IntervalDays(currentBudget);
-					budgetTotalAmount += currentBudget.GetAmountByIntervalDays(intervalDays);
+					var dailyAmount = currentBudget.DailyAmount();
+					budgetTotalAmount += intervalDays * dailyAmount;
 				}
 			}
 
