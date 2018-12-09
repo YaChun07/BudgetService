@@ -32,7 +32,7 @@ namespace BudgetServiceTdd
 
 				if (CheckBudgetEmpty(diffMonth))
 				{
-					var currentBudget = _budgets.FirstOrDefault(x => x.YearMonth == midMonthTime.ToString("yyyyMM"));
+					var currentBudget = _budgets.FirstOrDefault(x => x.YearMonth == diffMonth);
 					if (currentBudget != null)
 					{
 						var intervalDays = period.IntervalDays(currentBudget);
