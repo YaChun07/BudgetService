@@ -69,7 +69,9 @@ namespace BudgetServiceTdd
 			{
 				budgetAmount = budget.Amount;
 			}
-			return starTimeSpan * budgetAmount / DateTime.DaysInMonth(int.Parse(date.Year.ToString()), int.Parse(date.Month.ToString()));
+
+			var daysInMonth = DateTime.DaysInMonth(budget.CurrentDateTime.Year, budget.CurrentDateTime.Month);
+			return starTimeSpan * budgetAmount / daysInMonth;
 		}
 
 		private int GetBudgetMonthDays(DateTime date)
