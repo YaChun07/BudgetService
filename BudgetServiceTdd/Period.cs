@@ -16,29 +16,14 @@ namespace BudgetServiceTdd
 
 		public int GetEndTimeSpan()
 		{
-			var endTimeSpan = 0;
-			if (Start.Month != End.Month)
-			{
-				endTimeSpan = End.Day;
-			}
-
-			return endTimeSpan;
+			return Start.Month != End.Month ? End.Day : 0;
 		}
 
 		public int GetStarTimeSpan()
 		{
-			var starTimeSpan = 0;
-			if (Start.Month == End.Month)
-			{
-				starTimeSpan = End.Day - Start.Day + 1;
-			}
-			else
-			{
-				DateTime date = Start;
-				starTimeSpan = DateTime.DaysInMonth(int.Parse(date.Year.ToString()), int.Parse(date.Month.ToString())) - Start.Day + 1;
-			}
-
-			return starTimeSpan;
+			return Start.Month == End.Month
+				? End.Day - Start.Day + 1
+				: DateTime.DaysInMonth(Start.Year, Start.Month) - Start.Day + 1;
 		}
 
 		public IEnumerable<string> GetMidMonths()
