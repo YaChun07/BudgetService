@@ -11,19 +11,12 @@ namespace BudgetServiceTdd
 
 		public int DaysInMonth()
 		{
-			var daysInMonth = DateTime.DaysInMonth(CurrentDateTime.Year, CurrentDateTime.Month);
-			return daysInMonth;
-		}
-
-		public int DailyAmount()
-		{
-			var dailyAmount = Amount / DaysInMonth();
-			return dailyAmount;
+			return DateTime.DaysInMonth(CurrentDateTime.Year, CurrentDateTime.Month);
 		}
 
 		public int GetAmountByIntervalDays(int intervalDays)
 		{
-			return intervalDays * DailyAmount();
+			return intervalDays * (Amount / DaysInMonth());
 		}
 	}
 }
