@@ -25,11 +25,8 @@ namespace BudgetServiceTdd
 		private int GetBudgetTotalAmount(DateTime start, DateTime end)
 		{
 			var period = new Period(start, end);
-
 			var budgetTotalAmount = 0;
-			var diffMonths = period.GetMidMonths();
-
-			foreach (var diffMonth in diffMonths)
+			foreach (var diffMonth in period.GetMidMonths())
 			{
 				var midMonthTime = new DateTime(int.Parse(diffMonth.Substring(0, 4)), int.Parse(diffMonth.Substring(4, 2)), 1);
 
