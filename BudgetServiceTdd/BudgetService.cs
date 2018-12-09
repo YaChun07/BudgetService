@@ -28,8 +28,6 @@ namespace BudgetServiceTdd
 			var budgetTotalAmount = 0;
 			foreach (var diffMonth in period.GetMidMonths())
 			{
-				var midMonthTime = new DateTime(int.Parse(diffMonth.Substring(0, 4)), int.Parse(diffMonth.Substring(4, 2)), 1);
-
 				if (CheckBudgetEmpty(diffMonth))
 				{
 					var currentBudget = _budgets.FirstOrDefault(x => x.YearMonth == diffMonth);
