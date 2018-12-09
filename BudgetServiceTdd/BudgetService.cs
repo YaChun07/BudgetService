@@ -65,13 +65,17 @@ namespace BudgetServiceTdd
 
 			if (budget != null)
 			{
-				var budgetAmount = 0;
-				budgetAmount = budget.Amount;
-				var daysInMonth = budget.DaysInMonth();
-				return starTimeSpan * budgetAmount / daysInMonth;
+				var dailyAmount = DailyAmount(budget);
+				return starTimeSpan * dailyAmount;
 			}
 
 			return 0;
+		}
+
+		private static int DailyAmount(Budget budget)
+		{
+			var dailyAmount = budget.Amount / budget.DaysInMonth();
+			return dailyAmount;
 		}
 
 		private int GetBudgetMonthDays(DateTime date)
