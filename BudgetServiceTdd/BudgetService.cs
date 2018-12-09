@@ -39,15 +39,5 @@ namespace BudgetServiceTdd
 
 			return budgetTotalAmount;
 		}
-
-		private IEnumerable<string> RemoveFirstAndLast(IEnumerable<string> diffMonths)
-		{
-			return diffMonths.Skip(1).Take(diffMonths.Count() - 2);
-		}
-
-		private bool CheckBudgetEmpty(string yearMonth)
-		{
-			return _budgets.Any(x => x.YearMonth == yearMonth);
-		}
 	}
 }
