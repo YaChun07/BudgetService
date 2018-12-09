@@ -39,6 +39,10 @@ namespace BudgetServiceTdd
 
 		public int IntervalDays(Budget budget)
 		{
+			if (Start > End)
+			{
+				return 0;
+			}
 			if (NoOverlappingDays(budget))
 			{
 				return 0;

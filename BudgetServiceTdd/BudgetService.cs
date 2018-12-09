@@ -15,15 +15,6 @@ namespace BudgetServiceTdd
 
 		public double TotalAmount(DateTime start, DateTime end)
 		{
-			if (start > end) return 0;
-
-			// code smell, a little primitive obsession for datetime.
-			// code smell, data clump for start, end always occur together.
-			return GetBudgetTotalAmount(start, end);
-		}
-
-		private int GetBudgetTotalAmount(DateTime start, DateTime end)
-		{
 			var period = new Period(start, end);
 			return _budgets.Sum(b => b.DailyAmount() * period.IntervalDays(b));
 		}
