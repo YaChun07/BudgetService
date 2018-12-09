@@ -9,15 +9,8 @@ namespace BudgetServiceTdd
 
 		public DateTime CurrentDateTime => DateTime.ParseExact(YearMonth + "01", "yyyyMMdd", null);
 
-		public int DaysInMonth()
-		{
-			return DateTime.DaysInMonth(CurrentDateTime.Year, CurrentDateTime.Month);
-		}
+		public int GetDaysInMonth() => DateTime.DaysInMonth(CurrentDateTime.Year, CurrentDateTime.Month);
 
-		public int DailyAmount()
-		{
-			var dailyAmount = Amount / DaysInMonth();
-			return dailyAmount;
-		}
+		public int DailyAmount() => Amount / GetDaysInMonth();
 	}
 }

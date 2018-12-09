@@ -50,7 +50,7 @@ namespace BudgetServiceTdd
 			}
 			else
 			{
-				intervalDays = currentBudget.DaysInMonth();
+				intervalDays = currentBudget.GetDaysInMonth();
 			}
 
 			return intervalDays;
