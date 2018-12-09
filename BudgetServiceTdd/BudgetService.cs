@@ -56,7 +56,7 @@ namespace BudgetServiceTdd
 					var currentBudget = _budgets.FirstOrDefault(x => x.YearMonth == midMonthTime.ToString("yyyyMM"));
 					if (currentBudget != null)
 					{
-						budgetTotalAmount += currentBudget.GetTotalBudgetByMonth(GetBudgetMonthDays(midMonthTime));
+						budgetTotalAmount += currentBudget.GetAmountByIntervalDays(currentBudget.DaysInMonth());
 					}
 				}
 			}
@@ -66,11 +66,6 @@ namespace BudgetServiceTdd
 		private IEnumerable<string> RemoveFirstAndLast(IEnumerable<string> diffMonths)
 		{
 			return diffMonths.Skip(1).Take(diffMonths.Count() - 2);
-		}
-
-		private int GetBudgetMonthDays(DateTime date)
-		{
-			return DateTime.DaysInMonth(int.Parse(date.Year.ToString()), int.Parse(date.Month.ToString()));
 		}
 
 		private bool CheckBudgetEmpty(string yearMonth)
