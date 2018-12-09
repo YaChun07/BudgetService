@@ -51,5 +51,24 @@ namespace BudgetServiceTdd
 				currentMonth = currentMonth.AddMonths(1);
 			}
 		}
+
+		public int IntervalDays(Budget currentBudget)
+		{
+			int intervalDays;
+			if (currentBudget.YearMonth == Start.ToString("yyyyMM"))
+			{
+				intervalDays = GetStarTimeSpan();
+			}
+			else if (currentBudget.YearMonth == End.ToString("yyyyMM"))
+			{
+				intervalDays = GetEndTimeSpan();
+			}
+			else
+			{
+				intervalDays = currentBudget.DaysInMonth();
+			}
+
+			return intervalDays;
+		}
 	}
 }
