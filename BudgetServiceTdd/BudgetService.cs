@@ -38,21 +38,20 @@ namespace BudgetServiceTdd
 					var currentBudget = _budgets.FirstOrDefault(x => x.YearMonth == midMonthTime.ToString("yyyyMM"));
 					if (currentBudget != null)
 					{
+						int intervalDays;
 						if (midMonthTime.ToString("yyyyMM") == period.Start.ToString("yyyyMM"))
 						{
-							var intervalDays = period.GetStarTimeSpan();
-							budgetTotalAmount += currentBudget.GetAmountByIntervalDays(intervalDays);
+							intervalDays = period.GetStarTimeSpan();
 						}
 						else if (midMonthTime.ToString("yyyyMM") == period.End.ToString("yyyyMM"))
 						{
-							var intervalDays = period.GetEndTimeSpan();
-							budgetTotalAmount += currentBudget.GetAmountByIntervalDays(intervalDays);
+							intervalDays = period.GetEndTimeSpan();
 						}
 						else
 						{
-							var intervalDays = currentBudget.DaysInMonth();
-							budgetTotalAmount += currentBudget.GetAmountByIntervalDays(intervalDays);
+							intervalDays = currentBudget.DaysInMonth();
 						}
+						budgetTotalAmount += currentBudget.GetAmountByIntervalDays(intervalDays);
 					}
 				}
 			}
