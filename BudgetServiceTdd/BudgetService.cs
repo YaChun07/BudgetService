@@ -57,10 +57,10 @@ namespace BudgetServiceTdd
 
 		private int GetTotalBudgetByMonth(int starTimeSpan, DateTime date)
 		{
-			if (!CheckBudgetEmpty(date.ToString("yyyyMM")))
-			{
-				return 0;
-			}
+			//if (!CheckBudgetEmpty(date.ToString("yyyyMM")))
+			//{
+			//	return 0;
+			//}
 			var budget = _budgets.FirstOrDefault(x => x.YearMonth == date.ToString("yyyyMM"));
 
 			if (budget != null)
