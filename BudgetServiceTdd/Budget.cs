@@ -7,13 +7,11 @@ namespace BudgetServiceTdd
 		public string YearMonth { get; set; }
 		public int Amount { get; set; }
 
-		public DateTime CurrentDateTime => DateTime.ParseExact(YearMonth + "01", "yyyyMMdd", null);
-
-		public DateTime FirstDay => CurrentDateTime;
+		public DateTime FirstDay => DateTime.ParseExact(YearMonth + "01", "yyyyMMdd", null);
 
 		public DateTime LastDay => DateTime.ParseExact(YearMonth + GetDaysInMonth(), "yyyyMMdd", null);
 
-		public int GetDaysInMonth() => DateTime.DaysInMonth(CurrentDateTime.Year, CurrentDateTime.Month);
+		private int GetDaysInMonth() => DateTime.DaysInMonth(FirstDay.Year, FirstDay.Month);
 
 		public int DailyAmount() => Amount / GetDaysInMonth();
 	}
