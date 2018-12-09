@@ -31,5 +31,16 @@ namespace BudgetServiceTdd
 
 			return 0;
 		}
+
+		public int GetAmountByIntervalDays(int intervalDays)
+		{
+			var lastMonthAmount = 0;
+			if (this != null)
+			{
+				lastMonthAmount = GetTotalBudgetByMonth(intervalDays);
+			}
+
+			return lastMonthAmount;
+		}
 	}
 }
