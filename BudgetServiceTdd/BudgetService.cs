@@ -55,18 +55,13 @@ namespace BudgetServiceTdd
 			return diffMonths.Skip(1).Take(diffMonths.Count() - 2);
 		}
 
-		private Budget GetBudget(DateTime date)
-		{
-			return _budgets.FirstOrDefault(x => int.Parse(x.YearMonth.Substring(4, 2)) == int.Parse(date.Month.ToString()));
-		}
-
 		private int GetTotalBudgetByMonth(int starTimeSpan, DateTime date)
 		{
 			if (!CheckBudgetEmpty(date.ToString("yyyyMM")))
 			{
 				return 0;
 			}
-			var budget = GetBudget(date);
+			var budget = _budgets.FirstOrDefault(x => x.YearMonth == date.ToString("yyyyMM"));
 
 			var budgetAmount = 0;
 
@@ -74,7 +69,7 @@ namespace BudgetServiceTdd
 			{
 				budgetAmount = budget.Amount;
 			}
-			return starTimeSpan * budgetAmount / GetBudgetMonthDays(date);
+			return starTimeSpan * budgetAmount / DateTime.DaysInMonth(int.Parse(date.Year.ToString()), int.Parse(date.Month.ToString()));
 		}
 
 		private int GetBudgetMonthDays(DateTime date)
