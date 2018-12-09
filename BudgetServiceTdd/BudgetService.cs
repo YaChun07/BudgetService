@@ -30,9 +30,21 @@ namespace BudgetServiceTdd
 
 			DateTime date = period.Start;
 			DateTime date1 = period.End;
+			var firstMonthBudget = _budgets.FirstOrDefault(x => x.YearMonth == date.ToString("yyyyMM"));
+			var lastMonthBudget = _budgets.FirstOrDefault(x => x.YearMonth == date1.ToString("yyyyMM"));
+			var firstMonthAmount = 0;
+			if (firstMonthBudget != null)
+			{
+				firstMonthAmount = firstMonthBudget.GetTotalBudgetByMonth(starTimeSpan);
+			}
+			var lastMonthAmount = 0;
+			if (lastMonthBudget != null)
+			{
+				lastMonthAmount = lastMonthBudget.GetTotalBudgetByMonth(endTimeSpan);
+			}
 			return GetMidMonthBudget(period)
-				   + GetTotalBudgetByMonth(starTimeSpan, _budgets.FirstOrDefault(x => x.YearMonth == date.ToString("yyyyMM")))
-				   + GetTotalBudgetByMonth(endTimeSpan, _budgets.FirstOrDefault(x => x.YearMonth == date1.ToString("yyyyMM")));
+				   + firstMonthAmount
+				   + lastMonthAmount;
 		}
 
 		private int GetMidMonthBudget(Period period)
@@ -46,7 +58,11 @@ namespace BudgetServiceTdd
 
 				if (CheckBudgetEmpty(diffMonth))
 				{
-					budgetTotalAmount += GetTotalBudgetByMonth(GetBudgetMonthDays(midMonthTime), _budgets.FirstOrDefault(x => x.YearMonth == midMonthTime.ToString("yyyyMM")));
+					var currentBudget = _budgets.FirstOrDefault(x => x.YearMonth == midMonthTime.ToString("yyyyMM"));
+					if (currentBudget != null)
+					{
+						budgetTotalAmount += currentBudget.GetTotalBudgetByMonth(GetBudgetMonthDays(midMonthTime));
+					}
 				}
 			}
 			return budgetTotalAmount;
@@ -55,17 +71,6 @@ namespace BudgetServiceTdd
 		private IEnumerable<string> RemoveFirstAndLast(IEnumerable<string> diffMonths)
 		{
 			return diffMonths.Skip(1).Take(diffMonths.Count() - 2);
-		}
-
-		private int GetTotalBudgetByMonth(int starTimeSpan, Budget budget)
-		{
-			if (budget != null)
-			{
-				var dailyAmount = budget.DailyAmount();
-				return starTimeSpan * dailyAmount;
-			}
-
-			return 0;
 		}
 
 		private int GetBudgetMonthDays(DateTime date)

@@ -20,5 +20,16 @@ namespace BudgetServiceTdd
 			var dailyAmount = Amount / DaysInMonth();
 			return dailyAmount;
 		}
+
+		public int GetTotalBudgetByMonth(int starTimeSpan)
+		{
+			if (this != null)
+			{
+				var dailyAmount = DailyAmount();
+				return starTimeSpan * dailyAmount;
+			}
+
+			return 0;
+		}
 	}
 }
