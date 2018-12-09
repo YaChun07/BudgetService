@@ -25,19 +25,15 @@ namespace BudgetServiceTdd
 		private int GetBudgetTotalAmount(DateTime start, DateTime end)
 		{
 			var period = new Period(start, end);
-			var budgetTotalAmount = 0;
+			var totalAmount = 0;
 			foreach (var diffMonth in period.GetMidMonths())
 			{
-				var currentBudget = _budgets.FirstOrDefault(x => x.YearMonth == diffMonth);
-				if (currentBudget != null)
-				{
-					var intervalDays = period.IntervalDays(currentBudget);
-					var dailyAmount = currentBudget.DailyAmount();
-					budgetTotalAmount += intervalDays * dailyAmount;
-				}
+				var budget = _budgets.FirstOrDefault(x => x.YearMonth == diffMonth);
+				if (budget == null) continue;
+				totalAmount += period.IntervalDays(budget) * budget.DailyAmount();
 			}
 
-			return budgetTotalAmount;
+			return totalAmount;
 		}
 	}
 }
