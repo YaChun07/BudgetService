@@ -37,23 +37,22 @@ namespace BudgetServiceTdd
 			}
 		}
 
-		public int IntervalDays(Budget currentBudget)
+		public int IntervalDays(Budget budget)
 		{
-			int intervalDays;
-			if (currentBudget.YearMonth == Start.ToString("yyyyMM"))
+			if (budget.FirstDay > End)
 			{
-				intervalDays = GetStarTimeSpan();
-			}
-			else if (currentBudget.YearMonth == End.ToString("yyyyMM"))
-			{
-				intervalDays = GetEndTimeSpan();
-			}
-			else
-			{
-				intervalDays = currentBudget.GetDaysInMonth();
+				return 0;
 			}
 
-			return intervalDays;
+			if (budget.LastDay < Start)
+			{
+				return 0;
+			}
+
+			var intervalStart = Start > budget.FirstDay ? Start : budget.FirstDay;
+			var intervalEnd = End < budget.LastDay ? End : budget.LastDay;
+
+			return intervalEnd.Subtract(intervalStart).Days + 1;
 		}
 	}
 }
