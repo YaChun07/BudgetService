@@ -63,15 +63,15 @@ namespace BudgetServiceTdd
 			}
 			var budget = _budgets.FirstOrDefault(x => x.YearMonth == date.ToString("yyyyMM"));
 
-			var budgetAmount = 0;
-
 			if (budget != null)
 			{
+				var budgetAmount = 0;
 				budgetAmount = budget.Amount;
+				var daysInMonth = budget.DaysInMonth();
+				return starTimeSpan * budgetAmount / daysInMonth;
 			}
 
-			var daysInMonth = budget.DaysInMonth();
-			return starTimeSpan * budgetAmount / daysInMonth;
+			return 0;
 		}
 
 		private int GetBudgetMonthDays(DateTime date)
