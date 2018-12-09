@@ -39,12 +39,7 @@ namespace BudgetServiceTdd
 
 		public int IntervalDays(Budget budget)
 		{
-			if (budget.FirstDay > End)
-			{
-				return 0;
-			}
-
-			if (budget.LastDay < Start)
+			if (NoOverlappingDays(budget))
 			{
 				return 0;
 			}
@@ -53,6 +48,11 @@ namespace BudgetServiceTdd
 			var intervalEnd = End < budget.LastDay ? End : budget.LastDay;
 
 			return intervalEnd.Subtract(intervalStart).Days + 1;
+		}
+
+		private bool NoOverlappingDays(Budget budget)
+		{
+			return budget.FirstDay > End || budget.LastDay < Start;
 		}
 	}
 }
