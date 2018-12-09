@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace BudgetServiceTdd
 {
@@ -14,36 +13,9 @@ namespace BudgetServiceTdd
 		public DateTime Start { get; private set; }
 		public DateTime End { get; private set; }
 
-		public int GetEndTimeSpan()
-		{
-			return Start.Month != End.Month ? End.Day : 0;
-		}
-
-		public int GetStarTimeSpan()
-		{
-			return Start.Month == End.Month
-				? End.Day - Start.Day + 1
-				: DateTime.DaysInMonth(Start.Year, Start.Month) - Start.Day + 1;
-		}
-
-		public IEnumerable<string> GetMidMonths()
-		{
-			var currentMonth = new DateTime(Start.Year, Start.Month, 1);
-
-			while (currentMonth <= End)
-			{
-				yield return currentMonth.ToString("yyyyMM");
-				currentMonth = currentMonth.AddMonths(1);
-			}
-		}
-
 		public int IntervalDays(Budget budget)
 		{
-			if (Start > End)
-			{
-				return 0;
-			}
-			if (NoOverlappingDays(budget))
+			if (InvalidDate() || NoOverlappingDays(budget))
 			{
 				return 0;
 			}
@@ -52,6 +24,11 @@ namespace BudgetServiceTdd
 			var intervalEnd = End < budget.LastDay ? End : budget.LastDay;
 
 			return intervalEnd.Subtract(intervalStart).Days + 1;
+		}
+
+		private bool InvalidDate()
+		{
+			return Start > End;
 		}
 
 		private bool NoOverlappingDays(Budget budget)
